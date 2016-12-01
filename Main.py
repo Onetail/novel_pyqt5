@@ -1,10 +1,12 @@
-from PyQt5.QtWidgets import QApplication,QWidget,QPushButton,QHBoxLayout,QVBoxLayout,QLabel,QTextEdit
+from PyQt5.QtWidgets import QApplication,QWidget,QPushButton,QHBoxLayout,QVBoxLayout,QLabel,QTextEdit,QScrollBar
 import sys
+import Additional
+
+# Main sccreen
 
 class Application(QWidget):
 	# global var
-	global button_id_list
-	button_id_list = ["add","look","delete","list"]
+	
 
 	# __init__
 	def __init__(self):
@@ -12,7 +14,7 @@ class Application(QWidget):
 		self.appui()
 	# init ui designer
 	def appui(self):
-		self.resize(800,600)
+		self.resize(1040,800)
 
 		#layout
 		uplayout = QHBoxLayout()		# |||
@@ -21,30 +23,35 @@ class Application(QWidget):
 		centerlayout = QVBoxLayout()	# ---
 		bottomlayout = QHBoxLayout()	# |||
 		leftlayout = QVBoxLayout()		# ---
-		mainlayout = QHBoxLayout()		# sum af layout
+		mainlayout = QVBoxLayout()		# sum af layout
 
 		#button
 		for i in range(0,4):
-			button_id_list[i] = QPushButton(button_id_list[i],self)
-			leftlayout.addWidget(button_id_list[i])
+			Additional.button_id_list[i] = QPushButton(Additional.button_id_list[i],self)
+			leftlayout.addWidget(Additional.button_id_list[i])
+			Additional.button_id_list[i].clicked.connect(Additional.button_def_list[i])
 		
 		#text
-		label = QLabel("",self)
+		nowtime = QLabel(Additional.Timeget(),self)
 		self.text = QTextEdit("",self)
 		self.text.setReadOnly(True)
 
+		#scroll
+		scroll = QScrollBar()
+		# scroll.set
 		#layout add
-
-		toplayout.addWidget(label)
+		bottomlayout.addWidget(scroll)
+		toplayout.addWidget(nowtime)
 		rightlayout.addWidget(self.text)
 		centerlayout.addLayout(toplayout)
 		centerlayout.addLayout(rightlayout)
 		uplayout.addLayout(leftlayout)
 		uplayout.addLayout(centerlayout)
-		mainlayout.addLayout(uplayout)
+		mainlayout.addLayout(uplayout,5)
 		mainlayout.addLayout(bottomlayout)
 		
 		self.setLayout(mainlayout)
+		
 		#show
 		self.show()
 
