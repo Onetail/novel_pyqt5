@@ -26,8 +26,10 @@ def Timeget():
 
 # get url 
 def url_Search():
-	res = requests.get('http://www.appledaily.com.tw/appledaily/hotdaily/'+array[j])
+	
+    res = requests.get('http://www.appledaily.com.tw/appledaily/hotdaily/')
 	res.encoding = 'utf=8'
 	soup = BeautifulSoup(res.text,"html.parser")
+    
 
 
