@@ -26,6 +26,8 @@ class Application(QWidget):
 		for i in range(0,4):
 			Additional.button_id_list[i] = QPushButton(Additional.button_id_list[i],self)
 			leftlayout.addWidget(Additional.button_id_list[i])
+			Additional.button_id_list[i].setFont(FontColor_array.Font_list[0])
+			Additional.button_id_list[i].setStyleSheet(FontColor_array.Color_list[0])
 			Additional.button_id_list[i].clicked.connect(Additional.button_def_list[i])
 		
 		#text
@@ -33,6 +35,8 @@ class Application(QWidget):
 		global text
 		self.text = QTextEdit("",self)
 		self.text.setReadOnly(True)
+
+		nowtime.setFont(FontColor_array.Font_list[1])
 
 		#scroll
 		scroll = QScrollBar()
