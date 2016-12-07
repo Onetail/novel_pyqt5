@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication,QWidget,QPushButton,QLabel,QTextEdit,QVBoxLayout,QHBoxLayout
+from PyQt5.QtWidgets import QApplication,QWidget,QPushButton,QLabel,QLineEdit,QVBoxLayout,QHBoxLayout
 from PyQt5.QtCore import *
 import re
 import sys
@@ -20,7 +20,7 @@ class Login(QWidget):
 		log = QPushButton("登入",self)
 		log.clicked.connect(self.determine)
 
-		log.setFont(FontColor_array.Font_list[2])
+		log.setFont(FontColor_array.Font_list[3])
 
 		# label
 		title = QLabel("--登入畫面--",self)
@@ -31,32 +31,36 @@ class Login(QWidget):
 		ac_text.setFont(FontColor_array.Font_list[2])
 		pw_text.setFont(FontColor_array.Font_list[2])
 
-		title.setStyleSheet(FontColor_array.Color_list[1])
-
-		# textEdit
-		self.account = QTextEdit("",self)
-		self.passwd = QTextEdit("",self)
+		# LineEdit
+		self.account = QLineEdit("",self)
+		self.passwd = QLineEdit("",self)
 
 		self.account.setFont(FontColor_array.Font_list[2])
 		self.passwd.setFont(FontColor_array.Font_list[2])
 		
+
 		# layout
-		toplayout = QVBoxLayout()
+		toplayout = QHBoxLayout()
 		aclayout = QHBoxLayout()
 		pwlayout = QHBoxLayout()
 		mainlayout = QVBoxLayout()
-
+		toplayout.addStretch(1)
 		toplayout.addWidget(title)
-		aclayout.addWidget(ac_text,2)
+		toplayout.addStretch(1)
+		aclayout.addStretch(1)
+		aclayout.addWidget(ac_text)
 		aclayout.addWidget(self.account)
-		pwlayout.addWidget(pw_text,2)
+		aclayout.addStretch(1)
+		pwlayout.addStretch(1)
+		pwlayout.addWidget(pw_text)
 		pwlayout.addWidget(self.passwd)
-
-		mainlayout.addLayout(toplayout,4)
-		mainlayout.addLayout(aclayout,1)
-		mainlayout.addLayout(pwlayout,1)
-		mainlayout.addWidget(log,2)
+		pwlayout.addStretch(1)
+		mainlayout.addLayout(toplayout)
+		mainlayout.addLayout(aclayout)
+		mainlayout.addLayout(pwlayout)
+		mainlayout.addWidget(log)
 		self.setLayout(mainlayout)
+		self.setStyleSheet(FontColor_array.Color_list[2])
 
 		# show
 		self.show()
@@ -68,10 +72,15 @@ class Login(QWidget):
 
 	# button Actionlistener
 	def determine(self):
-		if re.search(self.account.toPlainText(),"[0-9a-zA-Z]{6,7}") != None and re.search(self.passwd.toPlainText,"^[\x30-\x39]$"):
-			self.ui = frame.Application()
-			self.hide()
-			self.close_signal.connect(self.close)
-			self.ui.show()
-		else:
+		try:
+			if re.search(r"^[0-9a-zA-Z]{6,}$",self.account.text()) != None and re.search("^[\x30-\x39]$",self.passwd.text()) != None:
+				self.ui = frame.Application()
+				self.hide()
+				self.close_signal.connect(self.close)
+				self.ui.show()
+			else:
+				self.account.setText("")
+				self.passwd.setText("")
+
+		except:
 			return
