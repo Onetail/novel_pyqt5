@@ -1,12 +1,14 @@
 from PyQt5.QtWidgets import QApplication,QWidget,QPushButton,QLabel,QTextEdit,QVBoxLayout
+from PyQt5.QtCore import *
 import sys
 import FontColor_array
 import frame
 
 # login frame
 class Login(QWidget):
+	close_signal = pyqtSignal()
 	def __init__(self):
-		super().__init__()
+		super(Login,self).__init__()
 		self.loginui()
 
 	def loginui(self):
@@ -38,9 +40,11 @@ class Login(QWidget):
 		self.setLayout(layout)
 		# show
 		self.show()
-
+	def closeEvent(self,event):
+		self.close_signal.emit()
+		self.close()
 	def determine(self):
-		self.quit()
-		app = frame.QApplication(sys.argv)
-		ui_run = frame.Application()
-		sys.exit(app.exec_())
+		self.ui = frame.Application()
+		self.hide()
+		self.close_signal.connect(self.close)
+		self.ui.show()

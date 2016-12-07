@@ -8,7 +8,7 @@ class Application(QWidget):
 
 	# __init__
 	def __init__(self):
-		super().__init__()
+		super(Application,self).__init__()
 		self.appui()
 	# init ui designer
 	def appui(self):
