@@ -7,11 +7,10 @@ import requests
 # Main sccreen
 
 class Application(QWidget):
-	# global var
-	global button_id_list,search_url
 
-	button_id_list = ["add","look","delete","list"]
-	search_url = ["http://ck101.com/forum-237-1.html","http://ck101.com/forum-3419-1.html"]
+	global button_id_list,search_url
+	button_id_list = ["add","look","delete","list"] # button id
+	search_url = ["http://ck101.com/forum-237-1.html","http://ck101.com/forum-3419-1.html"] # 爬蟲的url
 	
 	# __init__
 	def __init__(self):
@@ -49,7 +48,7 @@ class Application(QWidget):
 
 		self.text = QTextEdit("",self)
 		self.text.setReadOnly(True)
-
+		self.text.setText("測試版")
 		nowtime.setFont(FontColor_array.Font_list[1])
 
 		#scroll
@@ -82,13 +81,25 @@ class Application(QWidget):
 
 	#search url to get detail
 	def url_Search(self):
-		for j in range(0,len(search_url)):
-			res = requests.get(search_url[j])
-			res.encoding = 'utf=8'
-			soup = BeautifulSoup(res.text,"html.parser")
-    		# for i in soup.select('.common.subject')[i]:
+		# 存爬蟲資料
+		global requests_txt
+		requests_txt = ""
+		try:
+			for j in range(0,len(search_url)):
+				res = requests.get(search_url[j])
+				res.encoding = 'utf=8'
+				soup = BeautifulSoup(res.text,"html.parser")
+				try:
+					for i in range(0,35):
+						requests_txt += soup.select('.titleBox')[i].setText
+				except:
+					requests_txt += "\n1"
+		except:
+			requests_txt+="無法連網，或URL錯誤"
+		finally:
+			self.text.setText(requests_txt)
 
 	# get now time
 	def Timeget(self):
 		stime = time.strftime("%Y-%m-%d  %H:%M:%S",time.localtime())
-		return stime
+		return stime 
