@@ -87,11 +87,12 @@ class Application(QWidget):
 		try:
 			for j in range(0,len(search_url)):
 				res = requests.get(search_url[j])
-				res.encoding = 'utf=8'
 				soup = BeautifulSoup(res.text,"html.parser")
+				print(res.text.encode("utf-8"))
 				try:
-					for i in range(0,35):
-						requests_txt += soup.select('.titleBox')[i].setText
+					for i in soup.select("th.new.subject"):
+						print("-")
+						requests_txt += soup.select('a.s.xst')[i].setText
 				except:
 					requests_txt += "\n1"
 		except:

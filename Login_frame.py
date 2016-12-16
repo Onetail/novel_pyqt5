@@ -24,12 +24,15 @@ class Login(QWidget):
 
 		# label
 		title = QLabel("--登入畫面--",self)
+		self.error_login = QLabel("",self)
+		# self.error_login.setStyleSheet(FontColor_array.Color_list[1])
 		ac_text = QLabel("帳號: ",self)
 		pw_text = QLabel("密碼: ",self)
 
 		title.setFont(FontColor_array.Font_list[2])
 		ac_text.setFont(FontColor_array.Font_list[2])
 		pw_text.setFont(FontColor_array.Font_list[2])
+		self.error_login.setFont(FontColor_array.Font_list[4])
 
 		# LineEdit
 		self.account = QLineEdit("",self)
@@ -44,9 +47,9 @@ class Login(QWidget):
 		aclayout = QHBoxLayout()
 		pwlayout = QHBoxLayout()
 		mainlayout = QVBoxLayout()
-		toplayout.addStretch(1)
 		toplayout.addWidget(title)
 		toplayout.addStretch(1)
+		toplayout.addWidget(self.error_login)
 		aclayout.addStretch(1)
 		aclayout.addWidget(ac_text)
 		aclayout.addWidget(self.account)
@@ -79,8 +82,10 @@ class Login(QWidget):
 				self.close_signal.connect(self.close)
 				self.ui.show()
 			else:
+
 				self.account.setText("")
 				self.passwd.setText("")
+				self.error_login.setText("帳號或密碼錯誤...")
 
 		except:
 			return
